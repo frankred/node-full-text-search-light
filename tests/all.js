@@ -332,72 +332,52 @@ describe('full-text-search-light tests', function () {
         text_search.remove(id);
 
         it('should remove every id=0 for \'hans peter\' in 1-char index', function () {
-            var expectation_value_index_1 = {
-                'h': [], 'a': [], 'n': [], 's': [], ' ': [], 'p': [], 'e': [], 't': [], 'r': []
-            };
+            var expectation_value_index_1 = {};
             assert.deepEqual(expectation_value_index_1, text_search.indexes[0]);
         });
 
         it('should remove every id=0 for \'hans peter\' in 2-char index', function () {
-            var expectation_value_index_2 = {
-                'ha': [], 'an': [], 'ns': [], 's ': [], ' p': [], 'pe': [], 'et': [], 'te': [], 'er': []
-            };
+            var expectation_value_index_2 = {};
             assert.deepEqual(expectation_value_index_2, text_search.indexes[1]);
         });
 
         it('should remove every id=0 for \'hans peter\' in 3-char index', function () {
-            var expectation_value_index_3 = {
-                'han': [], 'ans': [], 'ns ': [], 's p': [], ' pe': [], 'pet': [], 'ete': [], 'ter': []
-            };
+            var expectation_value_index_3 = {};
             assert.deepEqual(expectation_value_index_3, text_search.indexes[2]);
         });
 
         it('should remove every id=0 for \'hans peter\' in 4-char index', function () {
-            var expectation_value_index_4 = {
-                'hans': [], 'ans ': [], 'ns p': [], 's pe': [], ' pet': [], 'pete': [], 'eter': []
-            };
+            var expectation_value_index_4 = {};
             assert.deepEqual(expectation_value_index_4, text_search.indexes[3]);
         });
 
         it('should remove every id=0 for \'hans peter\' in 5-char index', function () {
-            var expectation_value_index_5 = {
-                'hans ': [], 'ans p': [], 'ns pe': [], 's pet': [], ' pete': [], 'peter': []
-            };
+            var expectation_value_index_5 = {};
             assert.deepEqual(expectation_value_index_5, text_search.indexes[4]);
         });
 
         it('should remove every id=0 for \'hans peter\' in 6-char index', function () {
-            var expectation_value_index_6 = {
-                'hans p': [], 'ans pe': [], 'ns pet': [], 's pete': [], ' peter': []
-            };
+            var expectation_value_index_6 = {};
             assert.deepEqual(expectation_value_index_6, text_search.indexes[5]);
         });
 
         it('should remove every id=0 for \'hans peter\' in 7-char index', function () {
-            var expectation_value_index_7 = {
-                'hans pe': [], 'ans pet': [], 'ns pete': [], 's peter': []
-            };
+            var expectation_value_index_7 = {};
             assert.deepEqual(expectation_value_index_7, text_search.indexes[6]);
         });
 
         it('should remove every id=0 for \'hans peter\' in 8-char index', function () {
-            var expectation_value_index_8 = {
-                'hans pet': [], 'ans pete': [], 'ns peter': []
-            };
+            var expectation_value_index_8 = {};
             assert.deepEqual(expectation_value_index_8, text_search.indexes[7]);
         });
 
         it('should remove every id=0 for \'hans peter\' in 9-char index', function () {
-            var expectation_value_index_9 = {
-                'hans pete': [], 'ans peter': []
-            };
+            var expectation_value_index_9 = {};
             assert.deepEqual(expectation_value_index_9, text_search.indexes[8]);
         });
 
         it('should remove every id=0 for \'hans peter\' in 10-char index', function () {
-            var expectation_value_index_10 = {
-                'hans peter': []
-            };
+            var expectation_value_index_10 = {};
             assert.deepEqual(expectation_value_index_10, text_search.indexes[9]);
         });
 

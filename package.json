@@ -1,11 +1,32 @@
 {
-    "name": "full-text-search-light",
-    "version": "0.0.1",
-    "description": "A pure in JS written full text search with an easy to use API.",
-    "scripts": {
-        "test": "node test/all.js"
-    },
-    "dependencies": {
-        "debug": "*"
-    }
+  "name": "full-text-search-light",
+  "version": "0.0.1",
+  "description": "A pure in JS written full text search with an easy to use API.",
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "dependencies": {
+    "debug": "*"
+  },
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frankred/node-full-text-search-light.git"
+  },
+  "keywords": [
+    "full",
+    "text",
+    "search",
+    "light",
+    "fast"
+  ],
+  "author": "Frank Roth <frankred@web.de> (http://rothf.de/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/frankred/node-full-text-search-light/issues"
+  },
+  "homepage": "https://github.com/frankred/node-full-text-search-light"
 }

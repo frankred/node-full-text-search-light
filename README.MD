@@ -52,7 +52,12 @@ If you want to ignore fields you can over give a filter function. If you want to
 // If you don't want to add a field to the search just return false
 var filter = function (key, val) {
     // Return false if you want to ignore field
-    if (key == 'array' || key == 'x') {
+    if (key == 'student' || key == 'topspeed') {
+        return false;   // Ignore field
+    }
+    
+    // Ignore cars that were built before 2001
+    if(key == 'year' && value < 2001){
         return false;   // Ignore field
     }
 

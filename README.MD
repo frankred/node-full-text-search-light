@@ -54,7 +54,7 @@ var obj = {
     name: 'Alexandra',
     age: 27,
     student: true,
-    hobbies: ['Tennis, 'Football', 'Party'];
+    hobbies: ['Tennis', 'Football', 'Party'];
     car: {
         make: 'Volvo',
         year: 2012,

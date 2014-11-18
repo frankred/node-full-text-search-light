@@ -55,11 +55,6 @@ var filter = function (key, val) {
     if (key == 'student' || key == 'topspeed') {
         return false;   // Ignore field
     }
-    
-    // Ignore cars that were built before 2001
-    if(key == 'year' && value < 2001){
-        return false;   // Ignore field
-    }
 
     return true;    // Accept field
 };

@@ -8,26 +8,6 @@ Full Text Search Light is a pure JavaScript full text search engine with the fol
 
 You can add every kind of data, also complex objects.
 
-## To do
-  - Add ```store``` and ```load``` function to serialize the full text search index.
-
-## Version
-0.0.1
-
-## Run tests
-
-You need mocha installed globally:
-
-```sh
-npm install -g mocha
-```
-
-Now you can run tests if you navigate to project root:
-
-```sh
-mocha tests
-```
-
 ## Documentation
 ```js
 var db = require('../index.js');
@@ -94,6 +74,26 @@ search.remove(f);
 
 
 search.search('Paul');
+```
+
+## To do
+  - Add ```store``` and ```load``` function to serialize the full text search index.
+
+## Version
+0.0.1
+
+## Run tests
+
+You need mocha installed globally:
+
+```sh
+npm install -g mocha
+```
+
+Now you can run tests if you navigate to project root:
+
+```sh
+mocha tests
 ```
 
 ##License

@@ -80,7 +80,8 @@ var f = search.add("Frank");
 search.remove(f);
 
 
-search.search('Paul');
+var result = search.search('pau');
+// result: ['Paul']
 ```
 
 ## To do

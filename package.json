@@ -1,0 +1,11 @@
+{
+    "name": "full-text-search-light",
+    "version": "0.0.1",
+    "description": "A pure in JS written full text search with an easy to use API.",
+    "scripts": {
+        "test": "node test/all.js"
+    },
+    "dependencies": {
+        "debug": "*"
+    }
+}

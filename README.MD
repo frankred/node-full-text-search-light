@@ -105,9 +105,6 @@ var result = search.search('pau');
 ## To do
   - Add ```store``` and ```load``` function to serialize the full text search index.
 
-## Version
-0.0.4
-
 ## Run tests
 
 You need mocha installed globally:

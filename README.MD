@@ -25,7 +25,8 @@ npm install git+https://github.com/frankred/node-full-text-search-light.git
 ```js
 var db = require('full-text-search-light');
 
-var search = new db('testdb');
+// Setup a name (not required)
+var search = new db('my-db-name');
 
 // Make search case insensitive, has to be done before init(). Can't be changed after init().
 search.ignore_case(true);

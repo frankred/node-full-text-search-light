@@ -8,6 +8,17 @@ Full Text Search Light is a pure JavaScript full text search engine with the fol
 
 You can add every kind of data, also complex objects.
 
+## Install
+### From NPM
+```sh
+npm install full-text-search-light
+```
+
+### From GitHub
+```sh
+npm install git+https://github.com/frankred/node-full-text-search-light.git
+```
+
 ## Documentation
 
 ### Init

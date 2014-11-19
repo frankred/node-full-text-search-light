@@ -80,6 +80,12 @@ var filter = function (key, val) {
 search.add(obj, filter);
 ```
 
+### Search
+```js
+    var results = search.search('p');
+    // results = ['Peter', 'Paul']
+```
+
 ### Remove
 
 You can remove objects or values out of the search by saving the ```id``` which is returned from the ```add``` method.

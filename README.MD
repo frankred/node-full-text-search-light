@@ -1,6 +1,6 @@
 # Full Text Search Light
 
-Full Text Search Light is a pure JS full text search engine with a **ultrafast** search and the following commands:
+Full Text Search Light is a pure JS full text search engine with an **ultrafast** search and the following commands:
 
   - Init
   - Add

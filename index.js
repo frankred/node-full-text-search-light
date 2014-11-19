@@ -14,8 +14,9 @@ function FullTextSearchLight(name) {
 
     this.config = {
         name: name,
-        index_amount: 5,
-        ignore_case: true
+        index_amount: 12,
+        ignore_case: true,
+        debug: false
     };
 
     this.indexes = [];
@@ -90,6 +91,8 @@ FullTextSearchLight.prototype.init = function (options) {
 
 FullTextSearchLight.prototype.debug = function (bool) {
     if (bool === true) {
+        this.config.debug = true;
+
         debug.enable('*');
         this.debug_full_text = debug('main');
         this.debug_full_text_remove = debug('remove');
@@ -99,6 +102,15 @@ FullTextSearchLight.prototype.debug = function (bool) {
     }
 
     if (bool === false) {
+        this.config.debug = false;
+        this.debug_full_text = function () {
+        };
+        this.debug_full_text_remove = function () {
+        };
+        this.debug_full_text_add = function () {
+        };
+        this.debug_full_text_search = function () {
+        };
         debug.disable();
     }
 };
@@ -181,19 +193,25 @@ FullTextSearchLight.prototype.addToIndex = function (obj, index, filter) {
         for (var i = 0; i < this.indexes.length; i++) {
 
             if (obj.constructor === String) {
-                this.debug_full_text_add('Type of data: String');
+                if (this.config.debug) {
+                    this.debug_full_text_add('Type of data: String');
+                }
                 var text = this.config.ignore_case === true ? obj.toLowerCase() : obj;
             }
 
             if (obj.constructor === Number || obj.constructor === Boolean) {
-                this.debug_full_text_add('Type of data: Number | Boolean');
+                if (this.config.debug) {
+                    this.debug_full_text_add('Type of data: Number | Boolean');
+                }
                 var text = obj.toString();
             }
 
             // Split into parts, care about case sensitivity
             var parts = this.cut(text, i + 1);
 
-            this.debug_full_text_add('Parts for ' + JSON.stringify(obj) + ': ' + JSON.stringify(parts));
+            if (this.config.debug) {
+                this.debug_full_text_add('Parts for ' + JSON.stringify(obj) + ': ' + JSON.stringify(parts));
+            }
 
             // Stop if it is not splittable anymore
             if (parts.length == 0) {
@@ -240,20 +258,27 @@ FullTextSearchLight.prototype.search = function (text) {
         text = text.toLowerCase();
     }
 
-    this.debug_full_text_search('Search for \'' + text + '\'');
+    if (this.config.debug) {
+        this.debug_full_text_search('Search for \'' + text + '\'');
+    }
 
     // 1) Search directly for the result
     if (text.length <= this.config.index_amount) {
         var index_nr = text.length - 1;
-        this.debug_full_text_search('Text length is ' + text.length + ' so search in index ' + index_nr);
-        this.debug_full_text_search('Index ' + index_nr + ' is ' + JSON.stringify(this.indexes[index_nr]));
-
+        if (this.config.debug) {
+            this.debug_full_text_search('Text length is ' + text.length + ' so search in index ' + index_nr);
+            this.debug_full_text_search('Index ' + index_nr + ' is ' + JSON.stringify(this.indexes[index_nr]));
+        }
         var ids = this.indexes[index_nr][text];
 
-        this.debug_full_text_search('Found ids for keyword \'' + text + '\': ' + JSON.stringify(ids));
+        if (this.config.debug) {
+            this.debug_full_text_search('Found ids for keyword \'' + text + '\': ' + JSON.stringify(ids));
+        }
 
         if (!ids || ids.length == 0) {
-            this.debug_full_text_search('Index found but no ids found');
+            if (this.config.debug) {
+                this.debug_full_text_search('Index found but no ids found');
+            }
             return [];
         }
 
@@ -268,11 +293,15 @@ FullTextSearchLight.prototype.search = function (text) {
 
 
     // 2) Seach indirectly
-    this.debug_full_text_search('No matching index found, take the index with the longest words');
+    if (this.config.debug) {
+        this.debug_full_text_search('No matching index found, take the index with the longest words');
+    }
     var last_index = this.indexes[this.indexes.length - 1];
     var text_length = this.indexes.length;
     var parts = this.cut(text, text_length);
-    this.debug_full_text_search('Search for: ' + JSON.stringify(parts));
+    if (this.config.debug) {
+        this.debug_full_text_search('Search for: ' + JSON.stringify(parts));
+    }
 
     var ids = [];
     var parts_found_counter = 0;
@@ -289,7 +318,10 @@ FullTextSearchLight.prototype.search = function (text) {
             ids.push(last_index[parts[i]][j]);
         }
     }
-    this.debug_full_text_search('Found ids: ' + JSON.stringify(ids));
+
+    if (this.config.debug) {
+        this.debug_full_text_search('Found ids: ' + JSON.stringify(ids));
+    }
 
     // Nothing found || The index is to small for the complete search word so the word is splitted in the biggest
     // indexed size. If not every part has a match the result is not valid.
@@ -298,7 +330,9 @@ FullTextSearchLight.prototype.search = function (text) {
     //          a) First the word is splitted to: 'sxi', 'xim', 'imp'
     //          b) 'sxi': 0 matches, , 'xim': 0 matches, 'imp': 1 match
     if (ids.length == 0 || parts_found_counter < parts.length) {
-        this.debug_full_text_search('Nothing found for \'' + text + '\'');
+        if(this.config.debug){
+            this.debug_full_text_search('Nothing found for \'' + text + '\'');
+        }
         return [];
     }
 
@@ -312,7 +346,9 @@ FullTextSearchLight.prototype.search = function (text) {
         counter[ids[i]]++;
     }
 
-    this.debug_full_text_search('Count occurence ' + JSON.stringify(counter));
+    if(this.config.debug){
+        this.debug_full_text_search('Count occurence ' + JSON.stringify(counter));
+    }
 
     var true_match_ids = [];
 
@@ -323,31 +359,39 @@ FullTextSearchLight.prototype.search = function (text) {
         }
     }
 
-    this.debug_full_text_search('True matching ids: ' + JSON.stringify(true_match_ids));
-
+    if(this.config.debug){
+        this.debug_full_text_search('True matching ids: ' + JSON.stringify(true_match_ids));
+    }
 
     var result = [];
 
     for (var i = 0; i < true_match_ids.length; i++) {
 
-        this.debug_full_text_search('Data for id \'' + true_match_ids[i] + '\': ' + JSON.stringify(this.data[true_match_ids[i]]));
+        if(this.config.debug){
+            this.debug_full_text_search('Data for id \'' + true_match_ids[i] + '\': ' + JSON.stringify(this.data[true_match_ids[i]]));
+        }
 
         // String
         if (this.data[true_match_ids[i]].constructor === String) {
-            this.debug_full_text_search('Data[' + true_match_ids[i] + '] is string');
+            if(this.config.debug){
+                this.debug_full_text_search('Data[' + true_match_ids[i] + '] is string');
+                this.debug_full_text_search('\'' + this.data[true_match_ids[i]] + '\' contains \'' + text + '\'?');
+            }
 
-
-            this.debug_full_text_search('\'' + this.data[true_match_ids[i]] + '\' contains \'' + text + '\'?');
             // Check if text is fully contained in the word
             if (this.data[true_match_ids[i]].toLowerCase().indexOf(text) > -1) {
-                this.debug_full_text_search('Yes');
+                if(this.config.debug){
+                    this.debug_full_text_search('Yes');
+                }
                 result.push(this.data[true_match_ids[i]]);
             }
             continue;
         }
 
         if (this.data[true_match_ids[i]].constructor === Number || this.data[true_match_ids[i]].constructor === Boolean) {
-            this.debug_full_text_search('Data[' + true_match_ids[i] + '] is boolean | number');
+            if(this.config.debug){
+                this.debug_full_text_search('Data[' + true_match_ids[i] + '] is boolean | number');
+            }
 
             // Check if text is fully contained in the number or boolean
             if (this.data[true_match_ids[i]].toString().indexOf(text)) {
@@ -356,7 +400,10 @@ FullTextSearchLight.prototype.search = function (text) {
             continue;
         }
 
-        this.debug_full_text_search('Data[' + true_match_ids[i] + '] is object');
+        if(this.config.debug){
+            this.debug_full_text_search('Data[' + true_match_ids[i] + '] is object');
+        }
+
         // If its a complex object like an array...
         var resp = {
             match: false
@@ -377,15 +424,23 @@ FullTextSearchLight.prototype.removeData = function (data_index) {
 
     // Free for overwriting
     this.free_slots.push(data_index);
-    this.debug_full_text_remove('Add index data[' + data_index + '] to free slots: ' + JSON.stringify(this.free_slots));
+
+    if(this.config.debug){
+        this.debug_full_text_remove('Add index data[' + data_index + '] to free slots: ' + JSON.stringify(this.free_slots));
+    }
 };
 
 FullTextSearchLight.prototype.remove = function (data_index) {
 
-    this.debug_full_text_remove('Remove data-index: ' + data_index);
+    if(this.config.debug){
+        this.debug_full_text_remove('Remove data-index: ' + data_index);
+    }
 
     var obj = this.data[data_index];
-    this.debug_full_text_remove('Data for data-index \'' + data_index + '\' found: ' + JSON.stringify(obj));
+
+    if(this.config.debug){
+        this.debug_full_text_remove('Data for data-index \'' + data_index + '\' found: ' + JSON.stringify(obj));
+    }
 
     // Primitive
     if (obj.constructor === Number || obj.constructor === Boolean) {
@@ -433,17 +488,24 @@ FullTextSearchLight.prototype.remove = function (data_index) {
 
 FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
 
-    this.debug_full_text_remove('Remove primitive \'' + text + '\'.');
+    if(this.config.debug){
+        this.debug_full_text_remove('Remove primitive \'' + text + '\'.');
+    }
 
     // 1) Search directly for the result
     if (text.length <= this.config.index_amount) {
         var index_nr = text.length - 1;
-        this.debug_full_text_remove('Text length is ' + text.length + ' so search in index ' + index_nr);
-        this.debug_full_text_remove('Index ' + index_nr + ' is ' + JSON.stringify(this.indexes[index_nr]));
+
+        if(this.config.debug){
+            this.debug_full_text_remove('Text length is ' + text.length + ' so search in index ' + index_nr);
+            this.debug_full_text_remove('Index ' + index_nr + ' is ' + JSON.stringify(this.indexes[index_nr]));
+        }
         var ids = this.indexes[index_nr][text];
 
         // Remove data_id out of index
-        this.debug_full_text_remove('Remove id \'' + data_index + '\' from ' + text + ':\'' + JSON.stringify(ids) + '\'');
+        if(this.config.debug){
+            this.debug_full_text_remove('Remove id \'' + data_index + '\' from ' + text + ':\'' + JSON.stringify(ids) + '\'');
+        }
         this.removeFromArray(ids, data_index);
 
         // Is empty can be deleted, no further need
@@ -451,7 +513,9 @@ FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
             delete this.indexes[index_nr][text];
         }
 
-        this.debug_full_text_remove('Removed id, resulting ids are:' + JSON.stringify(ids));
+        if(this.config.debug){
+            this.debug_full_text_remove('Removed id, resulting ids are:' + JSON.stringify(ids));
+        }
 
         return;
     }
@@ -460,7 +524,10 @@ FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
     var last_index = this.indexes[this.indexes.length - 1];
     var text_length = this.indexes.length;
     var parts = this.cut(text, text_length);
-    this.debug_full_text_remove('Search for \'' + JSON.stringify(parts) + '\'');
+
+    if(this.config.debug){
+        this.debug_full_text_remove('Search for \'' + JSON.stringify(parts) + '\'');
+    }
 
     var ids_arrays = [];
     var parts_found_counter = 0;
@@ -471,7 +538,9 @@ FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
             continue;
         }
 
-        this.debug_full_text_remove('Remove \'' + data_index + '\' in ' + last_index[parts[i]]);
+        if(this.config.debug){
+            this.debug_full_text_remove('Remove \'' + data_index + '\' in ' + last_index[parts[i]]);
+        }
         this.removeFromArray(last_index[parts[i]], data_index);
         // Is empty can be deleted, no further need
         if (last_index[parts[i]].length == 0) {

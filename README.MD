@@ -23,7 +23,7 @@ npm install git+https://github.com/frankred/node-full-text-search-light.git
 
 ### Init
 ```js
-var db = require('../index.js');
+var db = require('full-text-search-light');
 
 var search = new db('testdb');
 

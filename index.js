@@ -594,14 +594,4 @@ FullTextSearchLight.prototype.cut = function (text, level) {
     return parts.unique();
 };
 
-
-FullTextSearchLight.prototype.printData = function () {
-    this.debug_full_text(JSON.stringify(this.data, null, 4));
-};
-
-
-FullTextSearchLight.prototype.printIndexes = function () {
-    this.debug_full_text(JSON.stringify(this.indexes, null, 4));
-};
-
 module.exports = FullTextSearchLight;

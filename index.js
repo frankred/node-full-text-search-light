@@ -332,8 +332,11 @@ FullTextSearchLight.prototype.search = function (text) {
         if (this.data[true_match_ids[i]].constructor === String) {
             this.debug_full_text_search('Data[' + true_match_ids[i] + '] is string');
 
+
+            this.debug_full_text_search('\'' + this.data[true_match_ids[i]] + '\' contains \'' + text + '\'?');
             // Check if text is fully contained in the word
-            if (this.data[true_match_ids[i]].indexOf(text) > -1) {
+            if (this.data[true_match_ids[i]].toLowerCase().indexOf(text) > -1) {
+                this.debug_full_text_search('Yes');
                 result.push(this.data[true_match_ids[i]]);
             }
             continue;

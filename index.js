@@ -228,6 +228,10 @@ FullTextSearchLight.prototype.addToIndex = function (obj, index, filter) {
 
 FullTextSearchLight.prototype.search = function (text) {
 
+    if (text === undefined || text === null || text === '') {
+        return [];
+    }
+
     if (text.constructor === Number || text.constructor === Boolean) {
         text = text.toString();
     }

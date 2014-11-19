@@ -321,6 +321,22 @@ describe('full-text-search-light test', function () {
         });
     });
 
+    describe('search: empty search', function () {
+        var text_search = new text_search_light('testdb');
+        text_search.ignore_case(true);
+        text_search.index_amount(5);
+        text_search.init();
+
+        text_search.add("Joachim Herrfrau");
+        text_search.add("Frank Grün");
+        text_search.add("Andreas Knerenz");
+        text_search.add("Clemens Mitt");
+        text_search.add("David Knorat");
+
+        assert.deepEqual([], text_search.search(''));
+
+    });
+
 
     describe('remove: remove string from index', function () {
         var text_search = new text_search_light('testdb');
@@ -386,4 +402,6 @@ describe('full-text-search-light test', function () {
             assert.deepEqual(expectation_value_index_11, text_search.indexes[10]);
         });
     });
+
+
 });

@@ -82,8 +82,8 @@ search.add(obj, filter);
 
 ### Search
 ```js
-    var results = search.search('p');
-    // results = ['Peter', 'Paul']
+var results = search.search('p');
+// results = ['Peter', 'Paul']
 ```
 
 ### Remove

@@ -138,7 +138,7 @@ FullTextSearchLight.prototype.traverseCheck = function (obj, search, result) {
         }
 
         if (value.constructor === Number || value.constructor === Boolean) {
-            v = value;
+            v = value.toString();
         }
 
         if (this.config.ignore_case === true) {
@@ -270,7 +270,7 @@ FullTextSearchLight.prototype.search = function (text) {
     var parts = this.cut(text, text_length);
     this.debug_full_text_search('Search for: ' + JSON.stringify(parts));
 
-    var ids_arrays = [];
+    var ids = [];
     var parts_found_counter = 0;
     for (var i = 0; i < parts.length; i++) {
 
@@ -282,10 +282,10 @@ FullTextSearchLight.prototype.search = function (text) {
         ++parts_found_counter;
 
         for (var j = 0; j < last_index[parts[i]].length; j++) {
-            ids_arrays.push(last_index[parts[i]][j]);
+            ids.push(last_index[parts[i]][j]);
         }
     }
-    this.debug_full_text_search('Found ids: ' + JSON.stringify(ids_arrays));
+    this.debug_full_text_search('Found ids: ' + JSON.stringify(ids));
 
     // Nothing found || The index is to small for the complete search word so the word is splitted in the biggest
     // indexed size. If not every part has a match the result is not valid.
@@ -293,47 +293,71 @@ FullTextSearchLight.prototype.search = function (text) {
     //      Now we search for the word 'sximp'
     //          a) First the word is splitted to: 'sxi', 'xim', 'imp'
     //          b) 'sxi': 0 matches, , 'xim': 0 matches, 'imp': 1 match
-    if (ids_arrays.length == 0 || parts_found_counter !== parts.length) {
+    if (ids.length == 0 || parts_found_counter < parts.length) {
         this.debug_full_text_search('Nothing found for \'' + text + '\'');
         return [];
     }
 
-    ids_arrays = ids_arrays.unique();
-    this.debug_full_text_search('Unique found ids: ' + JSON.stringify(ids_arrays));
+
+    // Count elements
+    var counter = {};
+    for (var i = 0; i < ids.length; i++) {
+        if (!counter[ids[i]]) {
+            counter[ids[i]] = 0;
+        }
+        counter[ids[i]]++;
+    }
+
+    this.debug_full_text_search('Count occurence ' + JSON.stringify(counter));
+
+    var true_match_ids = [];
+
+    // if counter == parts.length then its a hit
+    for (var key in counter) {
+        if (counter[key] === parts.length) {
+            true_match_ids.push(key);
+        }
+    }
+
+    this.debug_full_text_search('True matching ids: ' + JSON.stringify(true_match_ids));
+
 
     var result = [];
 
-    for (var i = 0; i < ids_arrays.length; i++) {
+    for (var i = 0; i < true_match_ids.length; i++) {
 
-        this.debug_full_text_search('Data for id \'' + ids_arrays[i] + '\': ' + JSON.stringify(this.data[ids_arrays[i]]));
+        this.debug_full_text_search('Data for id \'' + true_match_ids[i] + '\': ' + JSON.stringify(this.data[true_match_ids[i]]));
 
-        if (ids_arrays[i].constructor === String) {
+        // String
+        if (this.data[true_match_ids[i]].constructor === String) {
+            this.debug_full_text_search('Data[' + true_match_ids[i] + '] is string');
 
             // Check if text is fully contained in the word
-            if (this.data[ids_arrays[i]].indexOf(text) > -1) {
-                result.push(this.data[ids_arrays[i]]);
+            if (this.data[true_match_ids[i]].indexOf(text) > -1) {
+                result.push(this.data[true_match_ids[i]]);
             }
             continue;
         }
 
-        if (ids_arrays[i].constructor === Number || ids_arrays[i].constructor === Boolean) {
+        if (this.data[true_match_ids[i]].constructor === Number || this.data[true_match_ids[i]].constructor === Boolean) {
+            this.debug_full_text_search('Data[' + true_match_ids[i] + '] is boolean | number');
 
             // Check if text is fully contained in the number or boolean
-            if (this.data[ids_arrays[i]].toString().indexOf(text)) {
-                result.push(this.data[ids_arrays[i]]);
+            if (this.data[true_match_ids[i]].toString().indexOf(text)) {
+                result.push(this.data[true_match_ids[i]]);
             }
-
             continue;
         }
 
+        this.debug_full_text_search('Data[' + true_match_ids[i] + '] is object');
         // If its a complex object like an array...
-        var result = {
+        var resp = {
             match: false
         };
 
-        this.traverseCheck(this.data[ids_arrays[i]], text, result);
-        if (result.match === true) {
-            result.push(this.data[ids_arrays[i]]);
+        this.traverseCheck(this.data[true_match_ids[i]], text, resp);
+        if (resp.match === true) {
+            result.push(this.data[true_match_ids[i]]);
         }
     }
     return result;

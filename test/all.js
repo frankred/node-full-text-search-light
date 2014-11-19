@@ -295,8 +295,6 @@ describe('full-text-search-light test', function () {
             text_search.add("Clemens Mitt");
             text_search.add("David Knorat");
 
-            text_search.printIndexes();
-
             var result = text_search.search("fr");
 
             assert.deepEqual(["Joachim Herrfrau", "Frank Grün"], result);

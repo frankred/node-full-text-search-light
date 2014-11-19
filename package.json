@@ -1,11 +1,11 @@
 {
   "name": "full-text-search-light",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A pure in JS written full text search with an easy to use API.",
   "scripts": {
     "test": "mocha test"
   },
-  "files": ["test/"],
+  "files": ["index.js", "test/"],
   "dependencies": {
     "debug": "*"
   },

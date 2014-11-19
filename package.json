@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "A pure in JS written full text search with an easy to use API.",
   "scripts": {
-    "test": "mocha tests"
+    "test": "mocha test"
   },
-  "files": ["tests/"],
+  "files": ["test/"],
   "dependencies": {
     "debug": "*"
   },
@@ -14,7 +14,7 @@
   },
   "main": "index.js",
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "repository": {
     "type": "git",

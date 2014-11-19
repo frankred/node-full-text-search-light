@@ -106,7 +106,7 @@ var result = search.search('pau');
   - Add ```store``` and ```load``` function to serialize the full text search index.
 
 ## Version
-0.0.3
+0.0.4
 
 ## Run tests
 

@@ -75,6 +75,9 @@ FullTextSearchLight.prototype.init = function (options) {
         if (options.ignore_case) {
             this.config.ignore_case = options.ignore_case;
         }
+        if (options.debug) {
+            this.config.debug = options.debug;
+        }
     }
 
     // Create indexes
@@ -119,7 +122,9 @@ FullTextSearchLight.prototype.traverse = function (object, func, filter) {
     for (var key in object) {
 
         if (filter && filter(key, object) === false) {
-            this.debug_full_text('Ignore field \'' + key + '\'');
+            if (this.config.debug) {
+                this.debug_full_text('Ignore field \'' + key + '\'');
+            }
             continue;
         }
 
@@ -169,7 +174,10 @@ FullTextSearchLight.prototype.add = function (obj, filter) {
 
     // Define data index
     var index = this.nextFreeIndex();
-    this.debug_full_text_add('Next free index for ' + JSON.stringify(obj) + ': ' + index);
+
+    if (this.config.debug) {
+        this.debug_full_text_add('Next free index for ' + JSON.stringify(obj) + ': ' + index);
+    }
 
     // Store data
     this.data[index] = obj;
@@ -330,7 +338,7 @@ FullTextSearchLight.prototype.search = function (text) {
     //          a) First the word is splitted to: 'sxi', 'xim', 'imp'
     //          b) 'sxi': 0 matches, , 'xim': 0 matches, 'imp': 1 match
     if (ids.length == 0 || parts_found_counter < parts.length) {
-        if(this.config.debug){
+        if (this.config.debug) {
             this.debug_full_text_search('Nothing found for \'' + text + '\'');
         }
         return [];
@@ -346,7 +354,7 @@ FullTextSearchLight.prototype.search = function (text) {
         counter[ids[i]]++;
     }
 
-    if(this.config.debug){
+    if (this.config.debug) {
         this.debug_full_text_search('Count occurence ' + JSON.stringify(counter));
     }
 
@@ -359,7 +367,7 @@ FullTextSearchLight.prototype.search = function (text) {
         }
     }
 
-    if(this.config.debug){
+    if (this.config.debug) {
         this.debug_full_text_search('True matching ids: ' + JSON.stringify(true_match_ids));
     }
 
@@ -367,20 +375,20 @@ FullTextSearchLight.prototype.search = function (text) {
 
     for (var i = 0; i < true_match_ids.length; i++) {
 
-        if(this.config.debug){
+        if (this.config.debug) {
             this.debug_full_text_search('Data for id \'' + true_match_ids[i] + '\': ' + JSON.stringify(this.data[true_match_ids[i]]));
         }
 
         // String
         if (this.data[true_match_ids[i]].constructor === String) {
-            if(this.config.debug){
+            if (this.config.debug) {
                 this.debug_full_text_search('Data[' + true_match_ids[i] + '] is string');
                 this.debug_full_text_search('\'' + this.data[true_match_ids[i]] + '\' contains \'' + text + '\'?');
             }
 
             // Check if text is fully contained in the word
             if (this.data[true_match_ids[i]].toLowerCase().indexOf(text) > -1) {
-                if(this.config.debug){
+                if (this.config.debug) {
                     this.debug_full_text_search('Yes');
                 }
                 result.push(this.data[true_match_ids[i]]);
@@ -389,7 +397,7 @@ FullTextSearchLight.prototype.search = function (text) {
         }
 
         if (this.data[true_match_ids[i]].constructor === Number || this.data[true_match_ids[i]].constructor === Boolean) {
-            if(this.config.debug){
+            if (this.config.debug) {
                 this.debug_full_text_search('Data[' + true_match_ids[i] + '] is boolean | number');
             }
 
@@ -400,7 +408,7 @@ FullTextSearchLight.prototype.search = function (text) {
             continue;
         }
 
-        if(this.config.debug){
+        if (this.config.debug) {
             this.debug_full_text_search('Data[' + true_match_ids[i] + '] is object');
         }
 
@@ -425,20 +433,20 @@ FullTextSearchLight.prototype.removeData = function (data_index) {
     // Free for overwriting
     this.free_slots.push(data_index);
 
-    if(this.config.debug){
+    if (this.config.debug) {
         this.debug_full_text_remove('Add index data[' + data_index + '] to free slots: ' + JSON.stringify(this.free_slots));
     }
 };
 
 FullTextSearchLight.prototype.remove = function (data_index) {
 
-    if(this.config.debug){
+    if (this.config.debug) {
         this.debug_full_text_remove('Remove data-index: ' + data_index);
     }
 
     var obj = this.data[data_index];
 
-    if(this.config.debug){
+    if (this.config.debug) {
         this.debug_full_text_remove('Data for data-index \'' + data_index + '\' found: ' + JSON.stringify(obj));
     }
 
@@ -488,7 +496,7 @@ FullTextSearchLight.prototype.remove = function (data_index) {
 
 FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
 
-    if(this.config.debug){
+    if (this.config.debug) {
         this.debug_full_text_remove('Remove primitive \'' + text + '\'.');
     }
 
@@ -496,14 +504,14 @@ FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
     if (text.length <= this.config.index_amount) {
         var index_nr = text.length - 1;
 
-        if(this.config.debug){
+        if (this.config.debug) {
             this.debug_full_text_remove('Text length is ' + text.length + ' so search in index ' + index_nr);
             this.debug_full_text_remove('Index ' + index_nr + ' is ' + JSON.stringify(this.indexes[index_nr]));
         }
         var ids = this.indexes[index_nr][text];
 
         // Remove data_id out of index
-        if(this.config.debug){
+        if (this.config.debug) {
             this.debug_full_text_remove('Remove id \'' + data_index + '\' from ' + text + ':\'' + JSON.stringify(ids) + '\'');
         }
         this.removeFromArray(ids, data_index);
@@ -513,7 +521,7 @@ FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
             delete this.indexes[index_nr][text];
         }
 
-        if(this.config.debug){
+        if (this.config.debug) {
             this.debug_full_text_remove('Removed id, resulting ids are:' + JSON.stringify(ids));
         }
 
@@ -525,7 +533,7 @@ FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
     var text_length = this.indexes.length;
     var parts = this.cut(text, text_length);
 
-    if(this.config.debug){
+    if (this.config.debug) {
         this.debug_full_text_remove('Search for \'' + JSON.stringify(parts) + '\'');
     }
 
@@ -538,7 +546,7 @@ FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
             continue;
         }
 
-        if(this.config.debug){
+        if (this.config.debug) {
             this.debug_full_text_remove('Remove \'' + data_index + '\' in ' + last_index[parts[i]]);
         }
         this.removeFromArray(last_index[parts[i]], data_index);

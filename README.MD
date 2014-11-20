@@ -1,7 +1,5 @@
 ![Full Text Search Light - Logo](https://dl.dropboxusercontent.com/u/3669658/github/full-text-search-light/13891138402.png)
 
-# Full Text Search Light
-
 Full Text Search Light is a pure JS full text search engine with an **ultrafast** search and the following commands:
 
   - Init

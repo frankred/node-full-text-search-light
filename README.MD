@@ -25,12 +25,37 @@ npm install git+https://github.com/frankred/node-full-text-search-light.git
 ### Init
 ```js
 var db = require('full-text-search-light');
+var search = new db('my-db');   // name is optional
+search.init();
+```
 
-// Setup a name (not required)
-var search = new db('my-db-name');
+You can also change some configuration values according to the full text search.
 
-// Make search case insensitive, has to be done before init(). Can't be changed after init().
-search.ignore_case(true);
+```js
+var db = require('full-text-search-light');
+var search = new db();
+
+// Make search case insensitive
+// Has to be done before init()
+// Can't be changed after init()
+search.ignore_case(true);   // default = true
+
+// Activate debug output
+// Makes your fulltext search much more slower
+// Should always be done only for developement reasons
+search.debug(true);   // default = false
+
+// Change the amount of indexes
+// The more indexes you have the faster can be your search
+// But the slower the 'add' method  gets
+search.index_amount(8);   // default = 12
+
+/*
+Defaults are
+  index_amount: 12,
+  ignore_case: true,
+  debug: falses
+*/
 
 // Init the index, has to be done before adding values or objects.
 search.init();
@@ -103,8 +128,42 @@ var result = search.search('pau');
 // result: ['Paul']
 ```
 
+## Functions
+
+This are all functions that can be used.
+
+### name
+- ```search.name()``` - Return the name
+- ```search.name('new-name')``` - Set the name
+
+### index_amount
+- ```search.index_amount()``` - Return the index amount
+- ```search.name('new-name')``` - Set the index amount
+
+### debug
+- ```search.debug(true)``` - Enable debugging
+- ```search.name(false)``` - Disable debugging
+
+### add
+- ```search.add('Just a string value')``` - Add a string to the search, returns a unique id
+- ```search.add(obj)``` - Add a object to the search, returns a unique id
+
+If you add numbers or booleans to the search they will be converted to strings.
+- ```search.add(false)``` - Add booelan to the search (ok this does not really make sense, but it works.), returns a unique id
+- ```search.add(42)``` - Add number to the search, returns a unique id
+
+### search
+- ```search.search('value')``` - Search for the string 'value'. Returns the results of the data as an array
+
+### remove
+- ```search.remove(1337)``` - Remove the data with the id 1337 from the search. This id was returned by adding a value or obj.
+
+### drop
+- ```search.drop()``` - Drops the search database and resets all data. The configuration is kept.
+
+
 ## To do
-  - Add ```store``` and ```load``` function to serialize the full text search index.
+- Add ```store``` and ```load``` function to serialize the full text search index.
 
 ## Run tests
 

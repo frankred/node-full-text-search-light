@@ -176,7 +176,7 @@ npm install -g mocha
 Now you can run tests if you navigate to project root:
 
 ```sh
-mocha tests
+mocha test
 ```
 
 ##License

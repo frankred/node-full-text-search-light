@@ -180,9 +180,11 @@ If you add numbers or booleans to the search they will be converted to strings.
 ### drop
 - ```search.drop()``` - Drops the search database and resets all data. The configuration is kept.
 
+### saveSync
+- ```search.save('path/to/file.json')``` - Save current search db to a json file.
 
-## To do
-- Add ```store``` and ```load``` function to serialize the full text search index.
+### loadSync
+- ```db.load('path/to/file.json')``` - Load a search from a file;
 
 ## Run tests
 

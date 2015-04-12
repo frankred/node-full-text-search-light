@@ -1,7 +1,27 @@
 var assert = require("assert");
+var fs = require('fs');
 var text_search_light = require('../index.js');
 
 describe('full-text-search-light test', function () {
+
+
+    describe('save and load', function () {
+
+        it('save and load the current full text search', function () {
+            var path = 'fullextsearch.json';
+            var text_search = new text_search_light('testdb');
+            text_search.init();
+            text_search.add('Peter');
+            text_search.add('Paul');
+            text_search.add('Maria');
+            text_search.saveSync(path);
+
+            var text_search2 = text_search_light.loadSync(path);
+            assert(fs.existsSync(path) === true);
+            assert.deepEqual(text_search, text_search2);
+            fs.unlinkSync(path);
+        });
+    });
 
 
     describe('init: create empty indexes', function () {
@@ -168,7 +188,7 @@ describe('full-text-search-light test', function () {
 
         var obj = {
             text: "simpler",
-            array: ["hans", 88, { yolo: "ono" }],
+            array: ["hans", 88, {yolo: "ono"}],
             object: {
                 blaa: "blubb",
                 x: {
@@ -219,7 +239,7 @@ describe('full-text-search-light test', function () {
         var obj = {
             text: "simpler",
             bool: false,
-            array: ["hans", 88, { yolo: "ono" }],
+            array: ["hans", 88, {yolo: "ono"}],
             object: {
                 blaa: "blubb",
                 x: {

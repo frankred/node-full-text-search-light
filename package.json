@@ -1,13 +1,14 @@
 {
   "name": "full-text-search-light",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A pure in JS written full text search with an easy to use API.",
   "scripts": {
     "test": "mocha test"
   },
   "files": ["index.js", "test/"],
   "dependencies": {
-    "debug": "*"
+    "debug": "*",
+    "jsonfile" : "2.0.0"
   },
   "devDependecies":{
     "mocha": "*"

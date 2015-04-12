@@ -1,4 +1,5 @@
 var debug = require('debug');
+var jsonfile = require('jsonfile');
 
 Array.prototype.unique = function () {
     var a = [];
@@ -24,6 +25,14 @@ function FullTextSearchLight(name) {
     this.data_ptr = 0;
     this.free_slots = [];
     this.single_data_counter = 0;
+};
+
+FullTextSearchLight.loadSync = function (path) {
+    return jsonfile.readFileSync(path);
+};
+
+FullTextSearchLight.prototype.saveSync = function (path) {
+    jsonfile.writeFileSync(path, this);
 };
 
 FullTextSearchLight.prototype.name = function (text) {

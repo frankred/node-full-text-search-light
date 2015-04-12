@@ -128,6 +128,7 @@ search.remove(f);
 // Returns an array with all result objects
 var result = search.search('pau');
 // result: ['Paul']
+```
 
 ### Save and Load
 ```js

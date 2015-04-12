@@ -6,6 +6,8 @@ Full Text Search Light is a pure JS full text search engine with an **ultrafast*
   - Add
   - Search
   - Remove
+  - Save to file
+  - Load from file
 
 You can add every kind of data, also complex objects.
 
@@ -126,6 +128,22 @@ search.remove(f);
 // Returns an array with all result objects
 var result = search.search('pau');
 // result: ['Paul']
+
+### Save and Load
+```js
+var db = require('full-text-search-light');
+var search = new db('my-db');   // name is optional
+
+// Add 
+search.add('Hello World');
+
+// Save current db
+search.saveSync('db.json');
+
+// Load db
+var search_loaded = db.loadSync('db.json');
+search_loaded.search('World');
+
 ```
 
 ## Functions

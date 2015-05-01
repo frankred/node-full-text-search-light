@@ -2,7 +2,7 @@
 
 Full Text Search Light is a pure JS full text search engine with an **ultrafast** search and the following commands:
 
-  - Add
+  - Add 
   - Search
   - Remove
   - Save to file
@@ -26,7 +26,7 @@ npm install git+https://github.com/frankred/node-full-text-search-light.git
 ### Init
 ```js
 var fulltextsearchlight = require('full-text-search-light');
-var search = new fulltextsearchlight();   // name is optional
+var search = new fulltextsearchlight();
 ```
 
 You can also change some configuration values according to the full text search.

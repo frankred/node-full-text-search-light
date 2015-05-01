@@ -108,7 +108,7 @@ var result = search.search('pau');
 ### Save and Load
 ```js
 var fulltextsearchlight = require('full-text-search-light');
-var search = new fulltextsearchlight('my-db');   // name is optional
+var search = new fulltextsearchlight();
 
 // Add 
 search.add('Hello World');

@@ -9,16 +9,24 @@ describe('full-text-search-light test', function () {
 
         it('save and load the current full text search', function () {
             var path = 'fullextsearch.json';
-            var text_search = new text_search_light('testdb');
-            text_search.init();
+            var text_search = new text_search_light();
             text_search.add('Peter');
             text_search.add('Paul');
             text_search.add('Maria');
             text_search.saveSync(path);
 
-            var text_search2 = text_search_light.loadSync(path);
+            // File exists now
             assert(fs.existsSync(path) === true);
+
+            // Same data structure
+            var text_search2 = text_search_light.loadSync(path);
+
             assert.deepEqual(text_search, text_search2);
+
+            // Check functions
+            assert.deepEqual(text_search.search('P'), ['Peter', 'Paul']);
+            assert.deepEqual(text_search.search('P'), text_search2.search('P'));
+
             fs.unlinkSync(path);
         });
     });
@@ -26,12 +34,13 @@ describe('full-text-search-light test', function () {
 
     describe('init: create empty indexes', function () {
 
-        var text_search = new text_search_light('testdb');
-        text_search.debug(false);
-        text_search.ignore_case(true);
         var amount = 12;
-        text_search.index_amount(amount);
-        text_search.init();
+
+        var text_search = new text_search_light({
+            debug: false,
+            ignore_case: true,
+            index_amount: amount
+        });
 
         it('should create 12 empty objects', function () {
             assert.equal(amount, text_search.indexes.length);
@@ -43,7 +52,7 @@ describe('full-text-search-light test', function () {
 
     describe('cut: cut words into 1...n big pieces', function () {
 
-        var text_search = new text_search_light('testdb');
+        var text_search = new text_search_light();
 
         it('should create pieces with the length 1 from the word \'joachim\' -> j,o,a,c,h,i,m (ignore duplicates)', function () {
             var result = text_search.cut("joachim", 1);
@@ -72,11 +81,13 @@ describe('full-text-search-light test', function () {
 
     describe('drop: drop all data, except of the configuration', function () {
         it('should drop all stored data', function () {
-            var text_search = new text_search_light('testdb');
-            text_search.index_amount(12);
-            text_search.init();
+            var text_search = new text_search_light({
+                index_amount: 12
+            });
             text_search.add("joachim");
+
             text_search.drop();
+
             assert.deepEqual([
                 {},
                 {},
@@ -98,9 +109,9 @@ describe('full-text-search-light test', function () {
 
 
     describe('add: add string to index', function () {
-        var text_search = new text_search_light('testdb');
-        text_search.index_amount(12);
-        text_search.init();
+        var text_search = new text_search_light({
+            index_amount: 12
+        });
 
         var text = 'hans peter';
         text_search.add(text);
@@ -182,9 +193,9 @@ describe('full-text-search-light test', function () {
     });
 
     describe('add: add obj to index', function () {
-        var text_search = new text_search_light('testdb');
-        text_search.index_amount(3);
-        text_search.init();
+        var text_search = new text_search_light({
+            index_amount: 3
+        });
 
         var obj = {
             text: "simpler",
@@ -232,9 +243,9 @@ describe('full-text-search-light test', function () {
 
     describe('add: add obj to index with filter', function () {
 
-        var text_search = new text_search_light('testdb');
-        text_search.index_amount(3);
-        text_search.init();
+        var text_search = new text_search_light({
+            index_amount: 3
+        });
 
         var obj = {
             text: "simpler",
@@ -294,9 +305,9 @@ describe('full-text-search-light test', function () {
             assert.deepEqual([obj], text_search.search('4'));
             assert.deepEqual([obj], text_search.search('2'));
             assert.deepEqual([obj], text_search.search('bb'));
+            assert.deepEqual([obj], text_search.search('imp'));
             assert.deepEqual([obj], text_search.search(false));
             assert.deepEqual([obj], text_search.search('false'));
-            assert.deepEqual([obj], text_search.search('imp'));
             assert.deepEqual([obj], text_search.search('blubb'));
         });
     });
@@ -304,10 +315,10 @@ describe('full-text-search-light test', function () {
 
     describe('search: search for items', function () {
         it('trivial search: text.length <= index amount', function () {
-            var text_search = new text_search_light('testdb');
-            text_search.ignore_case(true);
-            text_search.index_amount(5);
-            text_search.init();
+            var text_search = new text_search_light({
+                ignore_case: true,
+                index_amount: 5
+            });
 
             text_search.add("Joachim Herrfrau");
             text_search.add("Frank Grün");
@@ -322,10 +333,10 @@ describe('full-text-search-light test', function () {
 
 
         it('trivial search: text.length > index amount', function () {
-            var text_search = new text_search_light('testdb');
-            text_search.ignore_case(true);
-            text_search.index_amount(5);
-            text_search.init();
+            var text_search = new text_search_light({
+                ignore_case: true,
+                index_amount: 5
+            });
 
             text_search.add("Joachim Herrfrau");
             text_search.add("Frank Grün");
@@ -340,10 +351,10 @@ describe('full-text-search-light test', function () {
     });
 
     describe('search: empty search', function () {
-        var text_search = new text_search_light('testdb');
-        text_search.ignore_case(true);
-        text_search.index_amount(5);
-        text_search.init();
+        var text_search = new text_search_light({
+            ignore_case: true,
+            index_amount: 5
+        });
 
         text_search.add("Joachim Herrfrau");
         text_search.add("Frank Grün");
@@ -357,9 +368,9 @@ describe('full-text-search-light test', function () {
 
 
     describe('remove: remove string from index', function () {
-        var text_search = new text_search_light('testdb');
-        text_search.index_amount(12);
-        text_search.init();
+        var text_search = new text_search_light({
+            index_amount: 12
+        });
 
         var text = 'hans peter';
         var id = text_search.add(text);
@@ -420,6 +431,4 @@ describe('full-text-search-light test', function () {
             assert.deepEqual(expectation_value_index_11, text_search.indexes[10]);
         });
     });
-
-
 });

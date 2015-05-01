@@ -1,6 +1,6 @@
 {
   "name": "full-text-search-light",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A pure in JS written full text search with an easy to use API.",
   "scripts": {
     "test": "mocha test"
@@ -8,7 +8,8 @@
   "files": ["index.js", "test/"],
   "dependencies": {
     "debug": "*",
-    "jsonfile" : "2.0.0"
+    "jsonfile" : "2.0.0",
+    "merge": "1.2.0"
   },
   "devDependecies":{
     "mocha": "*"

@@ -34,17 +34,21 @@ You can also change some configuration values according to the full text search.
 ```js
 var fulltextsearchlight = require('full-text-search-light');
 var search = new fulltextsearchlight({
+  ignore_case: false,   // default = true, Ignore case during all search queries
+  index_amount: 8;   // default = 12, The more indexes you have, the faster can be your search but the slower the 'add' method  gets
+});
+```
+
+###Options
+You can define two different options
+####
   // Make search case insensitive
   // Has to be done before init()
   // Can't be changed after init()
   ignore_case: false,   // default = true
   
-  // Change the amount of indexes
-  // The more indexes you have the faster can be your search
-  // But the slower the 'add' method  gets
+  // 
   index_amount: 8;   // default = 12
-});
-```
 
 ### Add
 ```js

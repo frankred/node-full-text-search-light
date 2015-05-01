@@ -39,17 +39,6 @@ var search = new fulltextsearchlight({
 });
 ```
 
-###Options
-You can define two different options
-####
-  // Make search case insensitive
-  // Has to be done before init()
-  // Can't be changed after init()
-  ignore_case: false,   // default = true
-  
-  // 
-  index_amount: 8;   // default = 12
-
 ### Add
 ```js
 // Add values

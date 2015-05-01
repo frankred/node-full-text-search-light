@@ -2,7 +2,6 @@
 
 Full Text Search Light is a pure JS full text search engine with an **ultrafast** search and the following commands:
 
-  - Init
   - Add
   - Search
   - Remove
@@ -26,41 +25,25 @@ npm install git+https://github.com/frankred/node-full-text-search-light.git
 
 ### Init
 ```js
-var db = require('full-text-search-light');
-var search = new db('my-db');   // name is optional
-search.init();
+var fulltextsearchlight = require('full-text-search-light');
+var search = new fulltextsearchlight();   // name is optional
 ```
 
 You can also change some configuration values according to the full text search.
 
 ```js
-var db = require('full-text-search-light');
-var search = new db();
-
-// Make search case insensitive
-// Has to be done before init()
-// Can't be changed after init()
-search.ignore_case(true);   // default = true
-
-// Activate debug output
-// Makes your fulltext search much more slower
-// Should always be done only for developement reasons
-search.debug(true);   // default = false
-
-// Change the amount of indexes
-// The more indexes you have the faster can be your search
-// But the slower the 'add' method  gets
-search.index_amount(8);   // default = 12
-
-/*
-Defaults are
-  index_amount: 12,
-  ignore_case: true,
-  debug: falses
-*/
-
-// Init the index, has to be done before adding values or objects.
-search.init();
+var fulltextsearchlight = require('full-text-search-light');
+var search = new fulltextsearchlight({
+  // Make search case insensitive
+  // Has to be done before init()
+  // Can't be changed after init()
+  ignore_case: false,   // default = true
+  
+  // Change the amount of indexes
+  // The more indexes you have the faster can be your search
+  // But the slower the 'add' method  gets
+  index_amount: 8;   // default = 12
+});
 ```
 
 ### Add
@@ -115,7 +98,6 @@ var results = search.search('p');
 ```
 
 ### Remove
-
 You can remove objects or values out of the search by saving the ```id``` which is returned from the ```add``` method.
 
 ```js
@@ -132,17 +114,17 @@ var result = search.search('pau');
 
 ### Save and Load
 ```js
-var db = require('full-text-search-light');
-var search = new db('my-db');   // name is optional
+var fulltextsearchlight = require('full-text-search-light');
+var search = new fulltextsearchlight('my-db');   // name is optional
 
 // Add 
 search.add('Hello World');
 
 // Save current db
-search.saveSync('db.json');
+search.saveSync('search.json');
 
 // Load db
-var search_loaded = db.loadSync('db.json');
+var search_loaded = db.loadSync('search.json');
 search_loaded.search('World');
 
 ```
@@ -150,18 +132,6 @@ search_loaded.search('World');
 ## Functions
 
 This are all functions that can be used.
-
-### name
-- ```search.name()``` - Return the name
-- ```search.name('new-name')``` - Set the name
-
-### index_amount
-- ```search.index_amount()``` - Return the index amount
-- ```search.name('new-name')``` - Set the index amount
-
-### debug
-- ```search.debug(true)``` - Enable debugging
-- ```search.name(false)``` - Disable debugging
 
 ### add
 - ```search.add('Just a string value')``` - Add a string to the search, returns a unique id

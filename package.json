@@ -1,6 +1,6 @@
 {
   "name": "full-text-search-light",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A pure in JS written full text search with an easy to use API.",
   "scripts": {
     "test": "mocha test"
@@ -29,7 +29,7 @@
     "light",
     "fast"
   ],
-  "author": "Frank Roth <frankred@web.de> (http://rothf.de/)",
+  "author": "Frank Roth <frankred@web.de> (http://blog.mynotiz.de/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/frankred/node-full-text-search-light/issues"

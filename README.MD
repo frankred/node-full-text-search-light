@@ -2,7 +2,7 @@
 
 Full Text Search Light is a pure JS full text search engine with an **ultrafast** search and the following commands:
 
-  - Add 
+  - Add
   - Search
   - Remove
   - Save to file
@@ -47,7 +47,7 @@ search.add('Paul');
 search.add('Maria');
 ```
 
-You can also add objects or arrays to the search. Every child value will be added to the search, no mather if its an array or object.
+You can also add objects or arrays to the search. Every child value will be added to the search, no matter if it's an array or object.
 
 ```js
 // Add objects
@@ -110,7 +110,7 @@ var result = search.search('pau');
 var fulltextsearchlight = require('full-text-search-light');
 var search = new fulltextsearchlight();
 
-// Add 
+// Add
 search.add('Hello World');
 
 // Save current db
@@ -144,10 +144,10 @@ If you add numbers or booleans to the search they will be converted to strings.
 - ```search.drop()``` - Drops the search database and resets all data. The configuration is kept.
 
 ### saveSync
-- ```search.save('path/to/file.json')``` - Save current search db to a json file.
+- ```search.saveSync('path/to/file.json')``` - Save current search db to a json file.
 
 ### loadSync
-- ```db.load('path/to/file.json')``` - Load a search from a file;
+- ```db.loadSync('path/to/file.json')``` - Load a search from a file;
 
 ## Run tests
 

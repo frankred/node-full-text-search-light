@@ -35,7 +35,7 @@ FullTextSearchLight.prototype.init = function () {
 
     // Create indexes
     for (var i = 0; i < this.config.index_amount; i++) {
-        this.indexes.push({});
+        this.indexes.push(Object.create(null));
     }
 };
 

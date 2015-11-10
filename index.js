@@ -1,7 +1,7 @@
 var debug = require('debug');
 var jsonfile = require('jsonfile');
 var merge = require('merge');
-var log = debug('full-text-search-ligh');
+var log = debug('full-text-search-light');
 
 Array.prototype.unique = function () {
     var a = [];
@@ -194,7 +194,6 @@ FullTextSearchLight.prototype.addToIndex = function (obj, index, filter) {
         }, filter);
     }
 };
-
 
 FullTextSearchLight.prototype.search = function (text) {
 

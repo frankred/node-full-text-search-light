@@ -45,7 +45,7 @@ describe('full-text-search-light test', function () {
         it('should create 12 empty objects', function () {
             assert.equal(amount, text_search.indexes.length);
             for (var i = 0; i < text_search.indexes.length; i++) {
-                assert(text_search.indexes[i].constructor === Object);
+                assert.equal(true, typeof text_search.indexes[i] === 'object');
             }
         });
     });

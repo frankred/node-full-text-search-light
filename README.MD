@@ -67,7 +67,7 @@ search.add(obj);
 ```
 
 ### Add with filter
-If you want to ignore fields you can over give a filter function. If you want to ignore a field or value just return ```false```. If you return ```true``` or everything else the field is added to the index.
+If you want to ignore fields you can pass a filter function. If you want to ignore a field or value just return ```false```. If you return ```true``` or everything else the field is added to the index.
 
 ```js
 // Add filter, this function will be called on every single field

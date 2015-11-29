@@ -115,7 +115,7 @@ search.add('Hello World');
 search.save('search.json', function(error){
 
     // Load db
-    db.load('search.json', function(error, search_loaded){
+    fulltextsearchlight.load('search.json', function(error, search_loaded){
         var results = search_loaded.search('World');
     });
 });
@@ -133,7 +133,7 @@ search.add('Hello World');
 search.saveSync('search.json');
 
 // Load db
-var search_loaded = db.loadSync('search.json');
+var search_loaded = fulltextsearchlight.loadSync('search.json');
 var results = search_loaded.search('World');
 ```
 
@@ -162,7 +162,7 @@ If you add numbers or booleans to the search they will be converted to strings.
 - ```search.saveSync('path/to/file.json')``` - Save current search db to a json file.
 
 ### loadSync
-- ```db.loadSync('path/to/file.json')``` - Load a search from a file;
+- ```fulltextsearchlight.loadSync('path/to/file.json')``` - Load a search from a file;
 
 ## Run tests
 

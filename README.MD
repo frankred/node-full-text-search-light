@@ -114,11 +114,28 @@ var search = new fulltextsearchlight();
 search.add('Hello World');
 
 // Save current db
+search.save('search.json', function(error){
+
+    // Load db
+    db.load('search.json', function(error, search_loaded){
+        var results = search_loaded.search('World');
+    });
+});
+
+### Save and Load (Sync)
+```js
+var fulltextsearchlight = require('full-text-search-light');
+var search = new fulltextsearchlight();
+
+// Add
+search.add('Hello World');
+
+// Save current db
 search.saveSync('search.json');
 
 // Load db
 var search_loaded = db.loadSync('search.json');
-search_loaded.search('World');
+var results = search_loaded.search('World');
 
 ```
 

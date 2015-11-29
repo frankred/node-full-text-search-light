@@ -144,7 +144,6 @@ FullTextSearchLight.prototype.traverseCheck = function (obj, search, result) {
         // Search term matched
         if (v.indexOf(search) > -1) {
             result.match = true;
-            return;
         }
     });
 };
@@ -460,8 +459,6 @@ FullTextSearchLight.prototype.removePrimitve = function (text, data_index) {
 
     debug('Search for \'' + JSON.stringify(parts) + '\'');
 
-    var ids_arrays = [];
-    var parts_found_counter = 0;
     for (var i = 0; i < parts.length; i++) {
 
         // Nothing found for that part
@@ -504,12 +501,10 @@ FullTextSearchLight.prototype.nextFreeIndex = function () {
 FullTextSearchLight.prototype.cut = function (text, level) {
     if (level < 1) {
         throw new Error("Can't divide a word in smaller parts then 1 chacator");
-        return;
     }
 
     if (text.constructor !== String) {
         throw new Error("Can't handle non-strings");
-        return;
     }
 
     var parts = [];

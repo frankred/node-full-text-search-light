@@ -119,6 +119,7 @@ search.save('search.json', function(error){
         var results = search_loaded.search('World');
     });
 });
+```
 
 ### Save and Load (Sync)
 ```js
@@ -134,7 +135,6 @@ search.saveSync('search.json');
 // Load db
 var search_loaded = db.loadSync('search.json');
 var results = search_loaded.search('World');
-
 ```
 
 ## Functions

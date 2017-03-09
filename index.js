@@ -5,11 +5,11 @@ var jsonfile = require('jsonfile');
 var merge = require('merge');
 var debug = debug('full-text-search-light');
 
-Array.prototype.unique = function () {
+var unique = function (arr) {
     var a = [];
-    for (var i = 0, l = this.length; i < l; i++) {
-        if (a.indexOf(this[i]) === -1) {
-            a.push(this[i]);
+    for (var i = 0, l = arr.length; i < l; i++) {
+        if (a.indexOf(arr[i]) === -1) {
+            a.push(arr[i]);
         }
     }
     return a;
@@ -515,7 +515,7 @@ FullTextSearchLight.prototype.cut = function (text, level) {
         parts.push(text.substring(i, i + level));
     }
 
-    return parts.unique();
+    return unique(parts);
 };
 
 module.exports = FullTextSearchLight;

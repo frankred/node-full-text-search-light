@@ -1,9 +1,9 @@
 'use strict';
 
-var debug = require('debug');
+var debuglib = require('debug');
 var jsonfile = require('jsonfile');
 var merge = require('merge');
-var debug = debug('full-text-search-light');
+var debug = debuglib('full-text-search-light');
 
 var unique = function (arr) {
     var a = [];

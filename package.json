@@ -10,9 +10,9 @@
     "test/"
   ],
   "dependencies": {
-    "debug": "*",
+    "debug": "^4.1.0",
     "jsonfile": "2.0.0",
-    "merge": "1.2.0"
+    "merge": "^1.2.1"
   },
   "devDependecies": {
     "mocha": "*"
